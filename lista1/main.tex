@@ -1,0 +1,462 @@
+\documentclass{article}
+\usepackage{polski}
+\usepackage[utf8]{inputenc}
+\usepackage{listings}  
+\usepackage{algpseudocode,algorithm,algorithmicx}
+
+\title{\textbf{Obliczenia Naukowe}
+\\\large Lista 1 }
+\author{Jakub Gogola
+\\236412}
+\date{14 października 2018}
+
+\usepackage{natbib}
+\usepackage{graphicx}
+
+\usepackage{geometry}
+ \geometry{
+ a4paper,
+ total={170mm,257mm},
+ left=30mm,
+ right=30mm,
+ top=30mm,
+ bottom=30mm
+ }
+
+\begin{document}
+\maketitle
+\section{Zadanie I}
+W zadaniu 1., używając języka Julia, należało wyznaczyć kilka wartości istotnych dla arytmetyk \texttt{Float16}, \texttt{Float32} i \texttt{Float64} - epsilon maszynowy, wartość \textit{eta}  oraz maksymalną wartość możliwą do uzyskania w wymienionych typach zmiennopozycyjnych.
+
+\subsection{Epsilon maszynowy}
+Epsilonem maszynowym (\textit{macheps}) nazywamy taką najmniejszą liczbę $macheps > 0$, że $fl(1.0 + macheps) > 1.0$, gdzie $fl$ oznacza arytmetykę, w której chcemy wykonać powyższe działanie.
+
+\subsubsection{Problem}
+W zadaniu należało, przy użyciu języka \texttt{Julia}, wyznaczyć metodą iteracyjną wartość \textit{macheps} dla zadanych arytmetyk (\texttt{Float16}, \texttt{Float32}, \texttt{Float64}) oraz porównać otrzymane wyniki z wartościami zwracanymi przez funkcję \texttt{eps} oraz danymi zawartymi w pliku nagłówkowym \texttt{float.h} dla języka \texttt{C}.
+
+\subsubsection{Algorytm}
+\begin{algorithm}
+\begin{algorithmic}[1]
+    \Function{Compute-macheps}{}
+        \State $macheps \gets 1.0$
+        \While{$macheps / 2.0 + 1.0 > 1.0$}
+            \State $macheps \gets macheps / 2.0$
+        \EndWhile        
+        \State \Return{$macheps$}
+    \EndFunction
+\end{algorithmic}
+\end{algorithm}
+Zakładamy, że wszelkie obliczenia zawarte w powyższym algorytmie są wykonywane w zadanej arytmetyce.
+
+\subsubsection{Wyniki}
+Dla poszczególnych typów arytmetyk zostały uzyskane następujące wyniki. \\\\
+Arytmetyka \texttt{Float16} \\
+Wartość uzyskana w wyniku działania algorytmu: $0.000977$ \\
+Wartość domyślna dla arytmetyki \texttt{Float16}: $0.000977$ \\
+Wartość dla języka \texttt{C} w pliku nagłówkowym \texttt{float.h}: \textit{nie zdefiniowano} \\\\
+Arytmetyka \texttt{Float32} \\
+Wartość uzyskana w wyniku działania algorytmu: $1.1920929 \cdot 10^{-7}$ \\
+Wartość domyślna dla arytmetyki \texttt{Float32}: $1.1920929 \cdot 10^{-7}$ \\
+Wartość dla języka \texttt{C} w pliku nagłówkowym \texttt{float.h}: $1.1920929 \cdot 10^{-7}$ \\\\
+Arytmetyka \texttt{Float64} \\
+Wartość uzyskana w wyniku działania algorytmu: $2.220446049250313 \cdot 10^{-16}$ \\
+Wartość domyślna dla arytmetyki \texttt{Float64}: $2.220446049250313 \cdot 10^{-16}$ \\
+Wartość dla języka \texttt{C} w pliku nagłówkowym \texttt{float.h}: $2.220446049250313 \cdot 10^{-16}$ 
+
+\subsubsection{Obserwacje}
+Wyniki otrzymane w wyniku działania algorytmu obliczającego wartość \textit{macheps} są zgodne ze zwracanymi przez funkcję \texttt{eps}. Wraz ze wzrostem precyzji arytmetyki maleje wartość \textit{macheps}.
+
+\subsubsection{Wnioski}
+Zastosowany algorytm do obliczania wartości \textit{macheps} zwraca poprawne wyniki i jest to właściwy mechanizm obliczania tejże stałej. Zmniejszanie się wartości \textit{macheps} wraz ze wzrostem precyzji arytmetyki wynika z faktu, że w przypadku arytmetyki o większej precyzji możemy zapisać więcej cyfr znaczących, przez to rzadziej występuje zjawisko "ucinania bitów" i zaokrąglania. Występuje ścisły związek liczby \textit{macheps} z precyzją arytmetyki - określa ona najmniejszą wartość, która dodana do dowolnej, większej liczby wpływa jeszcze na obliczenia. Wartości $macheps$ dla odpowiednich arytmetyk języka \texttt{C} zawarte w pliku \texttt{float.h} są takie same jak te dla języka \texttt{Julia}.
+
+\subsection{Eta}
+Liczbą \textit{eta} nazywamy taką liczbę, że $eta > 0.0$ w zadanej arytmetyce, czyli jest to pierwsza liczba większa od wartości $0.0$.
+
+\subsubsection{Problem}
+W zadaniu należało, przy użyciu języka \texttt{Julia}, wyznaczyć metodą iteracyjną liczbę \textit{eta} dla zadanych arytmetyk (\texttt{Float16}, \texttt{Float32}, \texttt{Float64}) oraz porównać otrzymane wyniki z wartościami zwracanymi przez funkcję \texttt{nextfloat} oraz znaleźć związek otrzymanych wyników z wartością $MIN_{sub}$.
+
+\subsubsection{Algorytm}
+\begin{algorithm}
+    \begin{algorithmic}[1]
+        \Function{Compute-eta}{}
+            \State $eta \gets 1.0$
+            \While{$eta / 2.0 \neq 0.0$}
+                \State $eta \gets eta / 2.0$
+            \EndWhile
+            \State \Return{$eta$}
+        \EndFunction
+    \end{algorithmic}
+\end{algorithm}
+Zakładamy, że wszelkie obliczenia zawarte w powyższym algorytmie są wykonywane w zadanej arytmetyce.
+
+\subsubsection{Wyniki}
+W wyniku działania programu otrzymano następujące wyniki dla poszczególnych arytmetyk: \\\\
+Arytmetyka \texttt{Float16} \\
+Wartość uzyskana w wyniku działania algorytmu: $6.0 \cdot 10^{-8}$ \\
+Wartość domyślna dla arytmetyki \texttt{Float16}: $6.0 \cdot 10^{-8}$ \\\\
+Arytmetyka \texttt{Float32} \\
+Wartość uzyskana w wyniku działania algorytmu: $1.0 \cdot 10^{-45}$ \\
+Wartość domyślna dla arytmetyki \texttt{Float32}: $1.0 \cdot 10^{-45}$ \\\\
+Arytmetyka \texttt{Float64} \\
+Wartość uzyskana w wyniku działania algorytmu: $5.0 \cdot 10^{-324}$ \\
+Wartość domyślna dla arytmetyki \texttt{Float64}: $5.0 \cdot 10^{-324}$ \\
+
+\subsubsection{Obserwacje}
+Wartości \textit{eta} obliczone przez algorytm są takie same, jak te zwracane przez funkcję \texttt{nextfloat}. Wraz ze wzrostem precyzji arytmetyki maleje wartość \textit{eta}.
+
+\subsubsection{Wnioski}
+Wnioskiem wynikającym z analizy otrzymanych wyników jest fakt, że zastosowany algorytm do obliczania wartości \textit{eta} dla zadanych arytmetyk zwraca poprawny wynik zgodny ze stanem faktycznym. Zmniejszanie się wartości \textit{eta} odwrotnie proporcjonalnie do precyzji arytmetyki wynika z faktu, że z powodu zwiększonej długości mantysy możemy reprezentować mniejsze liczby, stąd pierwsza możliwa do zapisania liczba większa od $0.0$ jest mniejsza. Jest to najmniejsza możliwa do zapisania liczba większa od $0.0$. Liczba \textit{eta} ma ścisły związek z liczbą $MIN_{sub}$. Jej reprezentacja bitowa dla odpowiednich arytmetyk wygląda następująco: \\\\
+Arytmetyka \texttt{Float32}: "00000000000000000000000000000001" \\
+Arytmetyka \texttt{Float64}: "0000000000000000000000000000000000000000000000000000000000000001"\\\\
+Jak widać, wszystkie bity cechy to $0$. Jest to zatem liczba zdenormalizowana (\textit{subnormal}).
+
+\subsection{MAX}
+Liczba \textit{MAX} to największa możliwa do uzyskania wartość w zadanej arytmetyce zmiennopozycyjnej.
+
+\subsubsection{Problem}
+W zadaniu należało, przy użyciu języka \texttt{Julia}, wyznaczyć metodą iteracyjną wartość \textit{MAX} dla zadanych arytmetyk (\texttt{Float16}, \texttt{Float32}, \texttt{Float64}) oraz porównać wyniki z wartościami zwracanymi przez funkcję \texttt{realmax} oraz danymi zwartymi w pliku nagłówkowym \texttt{float.h} dla języka \texttt{C}.
+
+\subsubsection{Algorytm}
+\begin{algorithm}
+\begin{algorithmic}[1]
+    \Function{Compute-max}{}
+        \State $max \gets 1.0$
+        \While{$max \cdot 2.0 \neq \infty $}
+            \State $max \gets max \cdot 2.0$
+        \EndWhile
+        \State $max \gets max \cdot(2.0 - macheps)$
+        \State \Return{$max$}
+    \EndFunction
+\end{algorithmic}    
+\end{algorithm}
+Zakładamy, że wszelkie obliczenia zawarte w powyższym algorytmie są wykonywane w zadanej arytmetyce.
+
+\subsubsection{Wyniki}
+W wyniku działania programu otrzymano następujące wyniki dla poszczególnych arytmetyk: \\\\
+Arytmetyka \texttt{Float16} \\
+Wartość uzyskana w wyniku działania algorytmu: $6.55 \cdot 10^{4}$ \\
+Wartość domyślna dla arytmetyki \texttt{Float16}: $6.55 \cdot 10^{4}$ \\
+Wartość dla języka \texttt{C} w pliku nagłówkowym \texttt{float.h}: \textit{nie zdefiniowano} \\\\
+Arytmetyka \texttt{Float32} \\
+Wartość uzyskana w wyniku działania algorytmu: $3.4028235 \cdot 10^{38}$ \\
+Wartość domyślna dla arytmetyki \texttt{Float32}: $3.4028235 \cdot 10^{38}$ \\
+Wartość dla języka \texttt{C} w pliku nagłówkowym \texttt{float.h}: $3.4028235 \cdot 10^{38}$ \\\\
+Arytmetyka \texttt{Float64} \\
+Wartość uzyskana w wyniku działania algorytmu: $1.7976931348623157 \cdot 10^{308}$ \\
+Wartość domyślna dla arytmetyki \texttt{Float64}: $1.7976931348623157 \cdot 10^{308}$ \\
+Wartość dla języka \texttt{C} w pliku nagłówkowym \texttt{float.h}: $1.7976931348623157 \cdot 10^{308}$ 
+\subsubsection{Obserwacje}
+Wartość $MAX$ obliczone przez algorytm są takie same, jak te zwracane przez funkcję \texttt{realmax}. Wraz ze wzrostem precyzji arytmetyki rośnie również wyliczona wartość $MAX$.
+
+\subsubsection{Wnioski}
+Wnioskiem płynącym z analizy otrzymanych wyników jest fakt, że zastosowany algorytm działa poprawnie, ponieważ zwraca wartości $MAX$ zgodne ze stanem faktycznym. Wzrost wartości $MAX$ wraz ze zwiększaniem się precyzji arytmetyki wynika z faktu, że im większa precyzja, tym więcej liczb możemy w danej arytmetyce zapisać. Wartości zawarte w pliku nagłówkowym \texttt{float.h} są takie same jak dla języka \texttt{Julia}.
+
+\section{Zadanie II}
+\subsection{Metoda Kahana}
+Kahan zaproponował metodę polegającą na obliczaniu wartości \textit{macheps} za pomocą następującego wzoru: $3 \cdot (\frac{4}{3} - 1) - 1 $.
+
+\subsection{Problem}
+Używając języka \texttt{Julia} należało porównać wartości zwracane przez wzór podany przez Kahana z wartościami \textit{macheps} dla zadanych arytmetyk (\texttt{Float16}, \texttt{Float32}, \texttt{Float64}).
+
+\subsection{Algorytm}
+\begin{algorithm}
+    \begin{algorithmic}[1]
+        \Function{Kahan-macheps-method}{}
+            \State \Return $3.0 \cdot (4.0/3.0 - 1.0) - 1.0$
+        \EndFunction
+    \end{algorithmic}
+\end{algorithm}
+Zakładamy, że wszelkie obliczenia zawarte w powyższym algorytmie są wykonywane w zadanej arytmetyce.
+
+\subsection{Wyniki}
+Program wykorzystujący podany wyżej algorytm dał następujące wyniki:\\\\
+Arytmetyka \texttt{Float16} \\
+Wartość uzyskana metodą Kahana: $-0.000977$ \\
+Wartość domyślna dla arytmetyki \texttt{Float16}: $0.000977$ \\\\
+Arytmetyka \texttt{Float32} \\
+Wartość uzyskana metodą Kahana: $1.1920929 \cdot 10^{-7}$ \\
+Wartość domyślna dla arytmetyki \texttt{Float32}: $1.1920929 \cdot 10^{-7}$ \\\\
+Arytmetyka \texttt{Float64} \\
+Wartość uzyskana metodą Kahana: $-2.220446049250313 \cdot 10^{-16}$ \\
+Wartość domyślna dla arytmetyki \texttt{Float64}: $2.220446049250313 \cdot 10^{-16}$ \\
+
+\subsection{Obserwacje}
+Wartości zwrócone przez algorytm są takie same jak faktyczne wartości \textit{macheps} z dokładnością do znaku, tzn. otrzymane wartości \textit{macheps} dla arytmetyk \texttt{Float16} i \texttt{Float64} mają przeciwny znak (wartość ujemną) niż te zwracane przez funkcję \texttt{eps} języka \texttt{Julia}.
+
+\subsection{Wnioski}
+Na podstawie uzyskanych wyników można wysnuć wniosek, że rozumowanie przeprowadzone przez Kahana było w gruncie rzeczy poprawne, ale zastosowana przez niego metoda będzie działać w pełni poprawnie dla wszystkich typów arytmetyki, jeżeli na zaproponowany wzór nałożymy jeszcze wartość bezwzględną: $\mid 3 \cdot (\frac{4}{3} - 1) - 1 \mid$. 
+
+\section{Zadanie III}
+
+\subsection{Obliczanie $\delta$}
+Zgodnie z założeniami arytmetyki IEEE754, wszystkie reprezentowane liczby rozmieszczone są w pewnych odległościach $\delta$ określonych dla poszczególnych przedziałów.
+
+\subsection{Problem}
+Używając języka \texttt{Julia} i arytmetyki \texttt{Float64} należało sprawdzić, że liczby w przedziale $[1;2]$ są równomiernie rozmieszczone z krokiem $\delta = 2^{-52}$, czyli każdą liczbę z zadanego przedziału $[1;2]$ można zapisać jako $x = 1 + kx$, gdzie $k \in \lbrace 1, 2, ..., 2^{-52} - 1 \rbrace$ oraz $\delta = 2^{-52}$.
+W następnej kolejności należało sprawdzić rozmieszczenie liczb w przedziałach $[1;\frac{1}{2}]$ oraz $[2;4]$.
+
+\subsection{Algorytm}
+\begin{algorithm}
+    \begin{algorithmic}[1]
+        \Function{Num-shift}{$down, delta, steps$}
+        \For{$k \gets 1$ \textbf{to} $steps$}
+            \State $x \gets down + k \cdot delta$
+            \State print \Call{bits}{$x$}
+        \EndFor
+        \EndFunction
+    \end{algorithmic}
+\end{algorithm} 
+\textbf{Opis parametrów:} \\
+$down$ - dolny zakres przedziału \\
+$delta$ - odstęp pomiędzy liczbami \\
+$steps$ - liczba iteracji\\\\
+Zakłada się, że wszystkie obliczenia są wykonywane w zadanej arytmetyce.
+
+\subsection{Wyniki}
+Przedział: $[1;2]$ \\
+Wartość $\delta$: $2^{-52}$ \\
+Liczba iteracji: $8$
+\begin{center}
+    \begin{tabular}{l}
+    \hline
+        $0011111111110000000000000000000000000000000000000000000000000010$\\
+        $0011111111110000000000000000000000000000000000000000000000000011$\\
+        $0011111111110000000000000000000000000000000000000000000000000100$\\
+        $0011111111110000000000000000000000000000000000000000000000000101$\\
+        $0011111111110000000000000000000000000000000000000000000000000110$\\
+        $0011111111110000000000000000000000000000000000000000000000000111$\\
+        $0011111111110000000000000000000000000000000000000000000000001000$\\
+         \hline
+    \end{tabular}
+\end{center}
+Przedział: $[\frac{1}{2};1]$ \\
+Wartość $\delta$: $2^{-53}$ \\
+Liczba iteracji: $8$
+\begin{center}
+    \begin{tabular}{l}
+    \hline
+        $0011111111100000000000000000000000000000000000000000000000000001$ \\
+        $0011111111100000000000000000000000000000000000000000000000000010$ \\
+        $0011111111100000000000000000000000000000000000000000000000000011$ \\
+        $0011111111100000000000000000000000000000000000000000000000000100$ \\
+        $0011111111100000000000000000000000000000000000000000000000000101$ \\
+        $0011111111100000000000000000000000000000000000000000000000000110$ \\
+        $0011111111100000000000000000000000000000000000000000000000000111$ \\
+        $0011111111100000000000000000000000000000000000000000000000001000$ \\
+         \hline
+    \end{tabular}
+\end{center}
+Przedział: $[2;4]$ \\
+Wartość $\delta$: $2^{-51}$ \\
+Liczba iteracji: $8$
+\begin{center}
+    \begin{tabular}{l}
+    \hline
+        $0100000000000000000000000000000000000000000000000000000000000001$ \\
+        $0100000000000000000000000000000000000000000000000000000000000010$ \\
+        $0100000000000000000000000000000000000000000000000000000000000011$ \\
+        $0100000000000000000000000000000000000000000000000000000000000100$ \\
+        $0100000000000000000000000000000000000000000000000000000000000101$ \\
+        $0100000000000000000000000000000000000000000000000000000000000110$ \\
+        $0100000000000000000000000000000000000000000000000000000000000111$ \\
+        $0100000000000000000000000000000000000000000000000000000000001000$ \\
+         \hline
+    \end{tabular}
+\end{center}
+(Przedstawiono 8 pierwszych wyników dla każdego przedziału)
+
+\subsection{Obserwacje}
+W wyniku działania algorytmu otrzymano kolejne możliwe do reprezentacji liczby zmiennopozycyjne dla zadanych przedziałów. Zaobserwowano również następującą wartość $\delta$ dla poszczególnych przedziałów:
+\begin{itemize}
+    \item $[1;2]$: $\delta = 2^{-52}$,
+    \item $[\frac{1}{2};1]$: $\delta = 2^{-53}$,
+    \item $[2;4]$: $\delta = 2^{-51}$.
+\end{itemize}
+
+\subsection{Wnioski}
+Na podstawie uzyskanych wyników należy stwierdzić, że wzór $x = 1+ k\delta$ oraz wartość $\delta = 2^{-52}$ rzeczywiście opisują właściwe rozmieszczenie liczb w przedziale $[1;2]$. Ponadto, wyznaczone wartości $\delta$ dla pozostałych dwóch przedziałów pozwalają wnioskować, iż wraz z oddalaniem się od wartości $0.0$ odstępy pomiędzy liczbami są większe. Jednocześnie, w każdym z badanych przedziałów liczb jest dokładnie tyle samo, ponieważ zauważamy, że cecha dla wszystkich liczb z danego przedziału jest taka sama, a zmianie ulega jedynie mantysa.  
+
+\section{Zadanie IV}
+\subsection{Problem nieodwracalności dzielenia}
+W zadaniu należało zbadać problem nieodwracalności dzielenia w arytmetyce \texttt{Float64} dla języka \texttt{Julia}.
+
+\subsection{Problem}
+Zgodnie z poleceniem zadnia, należało eksperymentalnie, stosując arytmetykę \texttt{Float64}, obliczyć wyrażenie $fl(x \cdot fl(\frac{1}{x})) \neq 1$, gdzie $fl$ oznacza arytmetykę, w której chcemy wykonać powyższe działanie. Należało znaleźć najmniejszą liczbę spełniającą powyższą zależność.
+
+\subsection{Algorytm}
+\begin{algorithm}
+    \begin{algorithmic}[1]
+        \Function{Find-smallest-num}{}
+            \State $x \gets$ \Call{nextfloat}{1.0}
+            \While{$x \cdot 1.0/x = 1.0$ \textbf{and} $x < 2.0$}
+                \State $x \gets$ \Call{nextfloat}{x}
+            \EndWhile
+            \State \Return x
+        \EndFunction
+    \end{algorithmic}
+\end{algorithm}
+Zakłada się, że wszystkie obliczenia są wykonywane w zadanej arytmetyce. Powyższa procedura zwraca najmniejszą liczbę spełniającą zadaną zależność.
+
+\subsection{Wyniki}
+Otrzymana wartość: $1.000000057228997$.
+
+\subsection{Obserwacje}
+W wynik działa programu otrzymano najmniejszą możliwość wartość spełniającą zadaną zależność $fl(x \cdot fl(\frac{1}{x})) \neq 1$.
+
+\subsection{Wnioski}
+Fakt, iż dla arytmetyki \texttt{Float64} nie zachodzi równość $x \cdot \frac{1}{x} = 1$ wynika z błędów zaokrągleń, które powstają podczas wykonywania działań wykonywanych przy użyciu tej arytmetyki.
+
+\section{Zadanie V}
+
+\subsection{Obliczanie iloczynu skalarnego}
+W zadaniu 5. należało przeprowadzić eksperyment polegający na obliczeniu iloczynu skalarnego zadanych dwóch wektorów:
+\begin{center}
+        $ X = [2.718281828, -3.141592654, 1.414213562, 0.5772156649, 0.3010299957] $ 
+        $ Y = [1486.2497, 878366.9879, -22.37492, 4773714.647, 0.000185049] $
+\end{center}
+
+\subsection{Problem}
+Używając języka \texttt{Julia} należało przeanalizować działanie oraz wyniki zwracane przez cztery różne algorytmy obliczające iloczyn skalarny wektorów $X$ i $Y$.
+
+\subsection{Algorytm}
+\begin{itemize}
+    \item[\textbf{(a)}] "w przód" - stosując algorytm $\sum_{i=1}^{n} x_{i}y_{i}$,
+        \begin{algorithm}
+            \begin{algorithmic}[1]
+                \State $S \gets 0$
+                \For{$i \gets 1$ \textbf{to} $n$ do}
+                    \State $S \gets S + x_{i} \cdot y_{i}$
+                \EndFor
+            \end{algorithmic}
+        \end{algorithm}
+    \item[\textbf{(b)}] "w tył" - stosując algorytm $\sum_{i=n}^{1} + x_{i}y_{i}$
+        \begin{algorithm}
+            \begin{algorithmic}[1]
+                \State $S \gets 0$
+                \For{$i \gets 1$ \textbf{downto} $n$}
+                    \State $S \gets S + x_{i}y_{i}$
+                \EndFor
+            \end{algorithmic}
+        \end{algorithm}
+    \item[\textbf{(c)}] od największego do najmniejszego (dodając liczby dodatnie w porządku malejącym, dodając liczby ujemne w porządku rosnącym i na koniec dodając do siebie obliczone sumy częściowe
+    \item[\textbf{(d)}] odwrotnie niż w punkcie \textbf{(c)}.
+\end{itemize}
+
+\subsection{Wyniki}
+W wyniku działania powyższych programów uzyskano następujące wyniki dla poszczególnych rozwiązań:
+\begin{itemize}
+    \item[\textbf{(a)}] 
+        Arytmetyka \texttt{Float32}: $-0.4999443$ \\
+        Arytmetyka \texttt{Float64}: $1.0251881368296672 \cdot 10^{-10}$
+    \item[\textbf{(b)}]
+        Arytmetyka \texttt{Float32}: $-0.4543457$ \\
+        Arytmetyka \texttt{Float64}: $-1.5643308870494366 \cdot 10^{-10}$
+    \item[\textbf{(c)}]
+        Arytmetyka \texttt{Float32}: $-0.5$ \\
+        Arytmetyka \texttt{Float64}: $0.0$
+    \item[\textbf{(d)}]
+        Arytmetyka \texttt{Float32}: $-0.5$ \\
+        Arytmetyka \texttt{Float64}: $0.0$
+\end{itemize}
+Prawidłowy wynik iloczynu skalarnego dla wektorów $X$ i $Y$ to $-1.00657107000000 \cdot 10^{-11}$ (wynik z dokładnością do 15 cyfr znaczących).
+
+\subsection{Obserwacje}
+Wyniki dla poszczególnych arytmetyk oraz sposób rozwiązania zadania są różne. Żaden z uzyskanych wyników nie jest zgodny z rzeczywistym wynikiem mnożenia skalarnego wektorów $X$ oraz $Y$.
+
+\subsection{Wnioski}
+Wnioskiem z uzyskanych wyników jest fakt, że kolejność wykonywania działań na liczbach zmiennopozycyjnych ma duże znaczenie dla uzyskanego wyniku. Wraz ze wzrostem precyzji arytmetyki rośnie również precyzja uzyskanego wyniku, aczkolwiek nawet dla obliczeń w arytmetyce \texttt{Float64} nie udało się uzyskać dokładnej wartości. Można zauważyć również, że na wielkość generowanego błędu wpływa rząd wielkości dodawanych do siebie liczb, np. jeżeli do liczby $a$ dodamy liczbę $b$ mniejszą od $a$ o kilkanaście rzędów wielości, to wtedy wygenerujemy względnie niewielki błąd.
+
+\section{Zadanie VI}
+\subsection{Obliczanie wartości funkcji}
+W zadaniu 6. należało przy użyciu języka \texttt{Julia} policzyć w arytmetyce \texttt{Float64} wartości dwóch zadanych funkcji rzeczywistych.
+
+\subsection{Problem}
+Zgodnie z poleceniem zadania, używając arytmetyki \texttt{Float64}, należało policzyć wartości dla funkcji $f(x) = \sqrt{x^{2} + 1} - 1$ oraz $g(x) = \frac{x^{2}}{\sqrt{x^{2} + 1} + 1}$ dla wartości $x \in \lbrace 8^{-1}, 8^{-2}, 8^{-3}, ... \rbrace$.
+
+\subsection{Algorytm}
+Zostały obliczone wartości dla funkcji $f(x)$ i $g(x)$ za pomocą programów w języku \texttt{Julia}.
+
+\subsection{Wyniki}
+\begin{center}
+    \begin{tabular}{c|c|c}
+        \hline
+        $x$ & $f(x)$ & $g(x)$ \\ \hline
+        $x = 8^{-1}$ & $f(x) = 0.0077822185373186414$ & $g(x) = 0.0077822185373187065$ \\ \hline
+        $x = 8^{-2}$ & $f(x) = 0.00012206286282867573$ & $g(x) = 0.00012206286282875901$ \\ \hline
+        $x = 8^{-3}$ & $f(x) = 1.9073468138230965 \cdot 10^{-6}$ & $g(x) = 1.907346813826566 \cdot 10^{-6}$ \\ \hline
+        $\ldots$ & $\ldots$ & $\ldots $ \\ \hline
+        $x = 8^{-8}$ & $f(x) = 1.7763568394002505 \cdot 10^{-15}$ & $g(x) = 1.7763568394002489 \cdot 10^{-15}$ \\ \hline
+        $x = 8^{-9}$ & $f(x) = 0.0$ & $g(x) = 2.7755575615628914e \cdot 10^{-17}$ \\ \hline
+        $\ldots$ & $\ldots$ & $\ldots $ \\ \hline
+        $x = 8^{-178}$ & $f(x) = 0.0$ & $g(x) = 1.6 \cdot 10^{-322}$ \\ \hline
+        $x = 8^{-179}$ & $f(x) = 0.0$ & $g(x) = 0.0$ \\ \hline
+        $\ldots$ & $\ldots$ & $\ldots $ \\ \hline
+        $x = 8^{-199}$ & $f(x) = 0.0 $ & $g(x) = 0.0$ \\ \hline
+        $x = 8^{-200}$ & $f(x) = 0.0 $ & $g(x) = 0.0$ \\ \hline
+    \end{tabular}
+\end{center}
+Podczas działania programu obliczono wartości funkcji $f$ i $g$ dla 200 pierwszych argumentów.
+
+\subsection{Obserwacje}
+Funkcje $f$ i $g$ są sobie równe. Dla kilku pierwszych wartości obliczone przez program wartości rzeczywiście są zbliżone, jednak wraz ze zmniejszaniem się wartości argumentu $x$ widzimy co raz większe rozbieżności w wynikach. Funkcja $f$ już dla argumentu $x = 8^{-9}$ osiągnęła wartość $0.0$. Funkcja $g$ osiągnęła wartość $0.0$ dopiero dla argumentu $x = 8^{-179}$.
+
+\subsection{Wnioski}
+Można wykazać, że $ \lim_{x \to 0} f(x) = \lim_{x \to 0} g(x) = 0 $. Oznacza to, że funkcja $f$ i $g$ "zbliżają się" do wartości $0$ dla kolejnych argumentów, ale nigdy tej wartości nie osiągną. Otrzymane wyniki stoją w sprzeczności z tym faktem, jednak nie są one sprzeczne z zasadą działania arytmetyki \texttt{Float64}. Zauważmy, że w przypadku funkcji $f$ wartość pierwiastka jest bardzo zbliżona do wartości $1.0$, zatem odejmowane są od siebie bardzo bliskie liczby w wyniku czego, dochodzi do utraty cyfr znaczących. W przypadku funkcji $g$ nie jest wykonywane żadne odejmowanie przez co dokładność wyników jest większa a wszelkie uzyskane błędy wynikają z precyzji arytmetyki. Przekształcenie funkcji $f$ do postaci $g$ jest jednym ze sposób uniknięcia problemów wynikających z utraty cyfr znaczących jak miało to miejsce w przypadku wartości uzyskanych dla funkcji $f$.
+
+\section{Zadanie VII}
+
+\subsection{Obliczanie pochodnej funkcji}
+W zadaniu 7. należało, używając języka \texttt{Julia}, policzyć pochodną funkcji w arytmetyce \texttt{Float64} za pomocą zadanego wzoru, a następnie obliczyć błąd względny uzyskanych przybliżeń.
+
+\subsection{Problem}
+Przybliżoną wartość pochodnej funkcji $f$ można obliczyć za pomocą następującego wzoru:
+\begin{center}
+    $f^{'}(x) \approx \tilde{f^{'}}(x) = \frac{f(x_{0} + h) - f(x_{0})}{h}$
+\end{center}
+Obliczenia należało wykonać w arytmetyce \texttt{Float64}. Dana była funkcja $f(x) = \sin(x) + \cos(3x)$ oraz punkt $x_{0} = 1$, w którym liczona była pochodna funkcji $f$. Należało również obliczyć błąd zadany wzorem $\mid f^{'}(x) - \tilde{f^{'}}(x) \mid$ dla $h = 2^{-n}$, gdzie $n \in \lbrace 0, 1, 2, ..., 54 \rbrace$.
+
+\subsection{Algorytm}
+Używając języka \texttt{Julia} i arytmetyki \texttt{Float64} zostały obliczone wartości $\tilde{f^{'}}(x)$ za pomocą podanego wcześniej wzoru. Obliczone zostały również wartości $f^{'}(x)$, aby możliwym było obliczone wartości błędu dla poszczególnych przybliżeń wartości pochodnej funkcji $f$.
+
+\subsection{Wyniki}
+\begin{center}
+    \begin{tabular}{c|c|c|c}
+        \hline
+        $h$ & $\tilde{f^{'}}(x)$ & $\mid f^{'}(x) - \tilde{f^{'}}(x) \mid$ & $1 + h$ \\ \hline
+        $2^{0}$ & $2.0179892252685967$ & $1.9010469435800585$ & $2.0$ \\ \hline
+        $2^{-1}$ & $1.8704413979316472$ & $1.753499116243109$ & $1.5$ \\
+        \hline
+        $2^{-2}$ & $1.1077870952342974$ & $0.9908448135457593$ & $1.25$ \\
+        \hline
+        $2^{-3}$ & $0.6232412792975817$ & $0.5062989976090435$ & $1.125$ \\ \hline
+        $\ldots$ & $\ldots$ & $\ldots$ & $\ldots$ \\ \hline
+        $2^{-15}$ & $0.11706539714577957$ & $0.00012311545724141837$ & $1.000030517578125$ \\ \hline
+        $2^{-16}$ & $0.11700383928837255$ & $6.155759983439424 \cdot 10^{-5}$ & $1.0000152587890625$ \\ \hline
+        $2^{-17}$ & $0.11697306045971345$ & $3.077877117529937 \cdot 10^{-5}$ & $1.0000076293945312$ \\ \hline
+        $\ldots$ & $\ldots$ & $\ldots$ & $\ldots$ \\ \hline
+        $2^{-27}$ & $0.11694231629371643$ & $3.460517827846843 \cdot 10^{-8}$ & $1.0000000074505806$ \\ \hline
+        $2^{-28}$ & $0.11694228649139404$ & $4.802855890773117 \cdot 10^{-9}$ & $1.0000000037252903$ \\ \hline
+        $2^{-29}$ & $0.11694222688674927$ & $5.480178888461751 \cdot 10^{-8}$ & $1.0000000018626451$ \\ \hline
+        $2^{-30}$ & $0.11694216728210449$ & $1.1440643366000813 \cdot 10^{-7}$ & $1.0000000009313226$ \\ \hline
+        $\ldots$ & $\ldots$ & $\ldots$ & $\ldots$ \\ \hline
+        $2^{-36}$ & $0.116943359375$ & $1.0776864618478044 \cdot 10^{-6}$ & $1.000000000014552$ \\ \hline
+        $2^{-37}$ & $0.1169281005859375$ & $1.4181102600652196 \cdot 10^{-5}$ & $1.000000000007276$ \\ \hline
+        $2^{-38}$ & $0.116943359375$ & $1.0776864618478044 \cdot 10^{-6}$ & $1.000000000003638$ \\ \hline
+        $\ldots$ & $\ldots$ & $\ldots$ & $\ldots$ \\ \hline
+        $2^{-51}$ & $0.0$ & $0.11694228168853815$ & $1.0000000000000004$ \\ \hline
+        $2^{-52}$ & $-0.5$ & $0.6169422816885382$ & $1.0000000000000002$ \\ \hline
+        $2^{-53}$ & $0.0$ & $0.11694228168853815$ & $1.0$ \\ \hline
+        $2^{-54}$ & $0.0$ & $0.11694228168853815$ & $1.0$ \\ \hline
+    \end{tabular}
+\end{center}
+
+\subsection{Obserwacje}
+Na podstawie analizy otrzymanych wyników zauważamy, że dla pierwszych 29 wartości $h$ otrzymujemy dosyć dokładne przybliżenia dla pochodnej funkcji $f$. Najdokładniejsze przybliżenie otrzymano dla $h = 2^{-28}$. Błąd wyniósł wtedy $4.802855890773117 \cdot 10^{-9}$. Jest to najmniejsza uzyskana wartość błędu. Wraz z dalszym zmniejszaniem się wartości $h$ zauważamy, że wartości $1 + h$ są coraz mniej dokładne, a dla najmniejszych $h$ są równe 1.0. 
+
+\subsection{Wnioski}
+Na podstawie poczynionych obserwacji zauważamy, że od pewnej wartości $n$ ($h = 2^{-n}$), wartość $h$ jest już na tyle mała, że dochodzi do znacznej utraty dokładności obliczeń. Dla $n < -28$ wyrażenie $1 + h$ dąży swoimi wartościami do $1.0$, a liczony błąd zaczyna rosnąć. Wnioskiem płynącym z obserwacji jest fakt, iż należy unikać odejmowania od siebie wartości znacząco różniących się swoim wykładnikiem, ponieważ wpływa to na dokładność otrzymanych wyników. Na zaburzenie dokładności wyniku (utratę cyfr znaczących) wpływa również odejmowanie od siebie bardzo bliskich sobie wartości (dla bardzo małych $h$).
+
+\end{document}
+
+
+

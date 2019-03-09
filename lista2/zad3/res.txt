@@ -1,0 +1,239 @@
+**********************************
+Hilbert's matrix
+**********************************
+
+**********************************
+Size of matrix: 1 x 1
+Condition number of matrix: 1.0
+Rank number of matrix: 1
+Error - Gauss's method: 0.0
+Error - inversion methos: 0.0
+**********************************
+Size of matrix: 2 x 2
+Condition number of matrix: 19.28147006790397
+Rank number of matrix: 2
+Error - Gauss's method: 5.661048867003676e-16
+Error - inversion methos: 1.4043333874306803e-15
+**********************************
+Size of matrix: 3 x 3
+Condition number of matrix: 524.0567775860644
+Rank number of matrix: 3
+Error - Gauss's method: 8.022593772267726e-15
+Error - inversion methos: 0.0
+**********************************
+Size of matrix: 4 x 4
+Condition number of matrix: 15513.73873892924
+Rank number of matrix: 4
+Error - Gauss's method: 4.137409622430382e-14
+Error - inversion methos: 0.0
+**********************************
+Size of matrix: 5 x 5
+Condition number of matrix: 476607.25024259434
+Rank number of matrix: 5
+Error - Gauss's method: 1.6828426299227195e-12
+Error - inversion methos: 3.3544360584359632e-12
+**********************************
+Size of matrix: 6 x 6
+Condition number of matrix: 1.4951058642254665e7
+Rank number of matrix: 6
+Error - Gauss's method: 2.618913302311624e-10
+Error - inversion methos: 2.0163759404347654e-10
+**********************************
+Size of matrix: 7 x 7
+Condition number of matrix: 4.75367356583129e8
+Rank number of matrix: 7
+Error - Gauss's method: 1.2606867224171548e-8
+Error - inversion methos: 4.713280397232037e-9
+**********************************
+Size of matrix: 8 x 8
+Condition number of matrix: 1.5257575538060041e10
+Rank number of matrix: 8
+Error - Gauss's method: 6.124089555723088e-8
+Error - inversion methos: 3.07748390309622e-7
+**********************************
+Size of matrix: 9 x 9
+Condition number of matrix: 4.931537564468762e11
+Rank number of matrix: 9
+Error - Gauss's method: 3.8751634185032475e-6
+Error - inversion methos: 4.541268303176643e-6
+**********************************
+Size of matrix: 10 x 10
+Condition number of matrix: 1.6024416992541715e13
+Rank number of matrix: 10
+Error - Gauss's method: 8.67039023709691e-5
+Error - inversion methos: 0.0002501493411824886
+**********************************
+Size of matrix: 11 x 11
+Condition number of matrix: 5.222677939280335e14
+Rank number of matrix: 11
+Error - Gauss's method: 0.00015827808158590435
+Error - inversion methos: 0.007618304284315809
+**********************************
+Size of matrix: 12 x 12
+Condition number of matrix: 1.7514731907091464e16
+Rank number of matrix: 11
+Error - Gauss's method: 0.13396208372085344
+Error - inversion methos: 0.258994120804705
+**********************************
+Size of matrix: 13 x 13
+Condition number of matrix: 3.344143497338461e18
+Rank number of matrix: 11
+Error - Gauss's method: 0.11039701117868264
+Error - inversion methos: 5.331275639426837
+**********************************
+Size of matrix: 14 x 14
+Condition number of matrix: 6.200786263161444e17
+Rank number of matrix: 12
+Error - Gauss's method: 1.4554087127659643
+Error - inversion methos: 8.71499275104814
+**********************************
+Size of matrix: 15 x 15
+Condition number of matrix: 3.674392953467974e17
+Rank number of matrix: 12
+Error - Gauss's method: 4.696668350857427
+Error - inversion methos: 7.344641453111494
+**********************************
+Size of matrix: 16 x 16
+Condition number of matrix: 7.865467778431645e17
+Rank number of matrix: 12
+Error - Gauss's method: 54.15518954564602
+Error - inversion methos: 29.84884207073541
+**********************************
+Size of matrix: 17 x 17
+Condition number of matrix: 1.263684342666052e18
+Rank number of matrix: 12
+Error - Gauss's method: 13.707236683836307
+Error - inversion methos: 10.516942378369349
+**********************************
+Size of matrix: 18 x 18
+Condition number of matrix: 2.2446309929189128e18
+Rank number of matrix: 12
+Error - Gauss's method: 9.134134521198485
+Error - inversion methos: 7.575475905055309
+**********************************
+Size of matrix: 19 x 19
+Condition number of matrix: 6.471953976541591e18
+Rank number of matrix: 13
+Error - Gauss's method: 9.720589712655698
+Error - inversion methos: 12.233761393757726
+**********************************
+Size of matrix: 20 x 20
+Condition number of matrix: 1.3553657908688225e18
+Rank number of matrix: 13
+Error - Gauss's method: 7.549915039472976
+Error - inversion methos: 22.062697257870493
+**********************************
+
+**********************************
+Matrix with random values
+**********************************
+
+**********************************
+Size of matrix: 5 x 5
+Condition number of matrix: 1.0000000000000002
+Rank number of matrix: 5
+Error - Gauss's method: 2.0471501066083611e-16
+Error - inversion methos: 3.020133145511626e-16
+**********************************
+Size of matrix: 5 x 5
+Condition number of matrix: 10.000000000000002
+Rank number of matrix: 5
+Error - Gauss's method: 9.930136612989092e-17
+Error - inversion methos: 1.4043333874306804e-16
+**********************************
+Size of matrix: 5 x 5
+Condition number of matrix: 1000.0000000000788
+Rank number of matrix: 5
+Error - Gauss's method: 2.3424969167138874e-14
+Error - inversion methos: 2.1152822635321222e-14
+**********************************
+Size of matrix: 5 x 5
+Condition number of matrix: 1.0000000007255835e7
+Rank number of matrix: 5
+Error - Gauss's method: 3.8794851762764917e-10
+Error - inversion methos: 3.6698533841753645e-10
+**********************************
+Size of matrix: 5 x 5
+Condition number of matrix: 9.999817760321064e11
+Rank number of matrix: 5
+Error - Gauss's method: 2.5027349649104174e-5
+Error - inversion methos: 2.4736774958608205e-5
+**********************************
+Size of matrix: 5 x 5
+Condition number of matrix: 8.913820909261722e15
+Rank number of matrix: 4
+Error - Gauss's method: 0.19635503640911892
+Error - inversion methos: 0.16535945694153692
+**********************************
+Size of matrix: 10 x 10
+Condition number of matrix: 1.0000000000000009
+Rank number of matrix: 10
+Error - Gauss's method: 3.813741331030777e-16
+Error - inversion methos: 1.890641683868921e-16
+**********************************
+Size of matrix: 10 x 10
+Condition number of matrix: 9.999999999999986
+Rank number of matrix: 10
+Error - Gauss's method: 5.885229317525363e-16
+Error - inversion methos: 3.6316343785083587e-16
+**********************************
+Size of matrix: 10 x 10
+Condition number of matrix: 999.9999999999393
+Rank number of matrix: 10
+Error - Gauss's method: 5.428963345611852e-14
+Error - inversion methos: 5.39410285665483e-14
+**********************************
+Size of matrix: 10 x 10
+Condition number of matrix: 9.999999993559986e6
+Rank number of matrix: 10
+Error - Gauss's method: 3.0359549608062064e-10
+Error - inversion methos: 2.707008272047532e-10
+**********************************
+Size of matrix: 10 x 10
+Condition number of matrix: 1.0000516920961332e12
+Rank number of matrix: 10
+Error - Gauss's method: 1.9291153826678523e-5
+Error - inversion methos: 1.66483786107026e-5
+**********************************
+Size of matrix: 10 x 10
+Condition number of matrix: 1.4720461758793078e16
+Rank number of matrix: 9
+Error - Gauss's method: 0.03005589773775741
+Error - inversion methos: 0.08221255656584513
+**********************************
+Size of matrix: 20 x 20
+Condition number of matrix: 1.0000000000000016
+Rank number of matrix: 20
+Error - Gauss's method: 4.2638924323926724e-16
+Error - inversion methos: 4.1018195955169566e-16
+**********************************
+Size of matrix: 20 x 20
+Condition number of matrix: 10.000000000000009
+Rank number of matrix: 20
+Error - Gauss's method: 5.843191427130974e-16
+Error - inversion methos: 8.154661802907737e-16
+**********************************
+Size of matrix: 20 x 20
+Condition number of matrix: 1000.0000000000327
+Rank number of matrix: 20
+Error - Gauss's method: 1.0665193245407392e-14
+Error - inversion methos: 1.2160262196337652e-14
+**********************************
+Size of matrix: 20 x 20
+Condition number of matrix: 9.999999997309651e6
+Rank number of matrix: 20
+Error - Gauss's method: 3.951332609461665e-10
+Error - inversion methos: 3.913254603647672e-10
+**********************************
+Size of matrix: 20 x 20
+Condition number of matrix: 1.0000225586587788e12
+Rank number of matrix: 20
+Error - Gauss's method: 3.211076415576217e-5
+Error - inversion methos: 2.6586825350498692e-5
+**********************************
+Size of matrix: 20 x 20
+Condition number of matrix: 7.400130577881419e15
+Rank number of matrix: 19
+Error - Gauss's method: 0.02710212955708073
+Error - inversion methos: 0.07897969972562568
+**********************************
